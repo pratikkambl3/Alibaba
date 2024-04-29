@@ -36,8 +36,10 @@ fi
 
                                   }
             stage("Notification"){
+                      steps{
                                  slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#alibaba', color: 'warning', failOnError: true, message: 'Build is Failed', teamDomain: 'DEVOPS', tokenCredentialId: 'Alibaba', username: 'alexa'
-                                     }
+                            } 
+                                   }
       }
 
 }
