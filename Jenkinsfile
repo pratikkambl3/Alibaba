@@ -19,6 +19,11 @@ pipeline {
                     sh '/home/vboxuser/Documents/DevopsTools/apache-maven-3.9.6/bin/mvn install'
                           }
                                }
+              stage("Notification"){
+                      steps{
+                                 slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#alibaba', color: 'warning', failOnError: true, message: 'Build is Failed', teamDomain: 'DEVOPS', tokenCredentialId: 'Alibaba', username: 'alexa'
+                            }
+                                   }
               stage("Deployment"){
                       steps{
                           sh '''if [ $ENV = "DEV" ];then
@@ -37,7 +42,7 @@ fi
                                   }
             stage("Notification"){
                       steps{
-                                 slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#alibaba', color: 'warning', failOnError: true, message: 'Build is Failed', teamDomain: 'DEVOPS', tokenCredentialId: 'Alibaba', username: 'alexa'
+                                 slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#alibaba', color: 'good', failOnError: false, message: 'Build is success', teamDomain: 'DEVOPS', tokenCredentialId: 'Alibaba', username: 'alexa'
                             } 
                                    }
       }
