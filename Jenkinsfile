@@ -22,19 +22,22 @@ pipeline {
               stage("Deployment"){
                       steps{
                           sh '''if [ $ENV = "DEV" ];then
-cp target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
+cp /target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
 echo "Deployment done to DEV SERVER"
 elif [ $ENV = "QA"];then
-cp target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
+cp /target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
 echo "Deployment done to QA server"
 elif [ $ENV = "UAT" ];then
-cp target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
+cp /target/Alibaba.war /home/vboxuser/Documents/DevopsTools/apache-tomcat-9.0.88/webapps/
 echo "Deployment done to UAT server"
 fi
 '''
   }
 
                                   }
+            stage("Notification"){
+                                 slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#alibaba', color: 'warning', failOnError: true, message: 'Build is Failed', teamDomain: 'DEVOPS', tokenCredentialId: 'Alibaba', username: 'alexa'
+                                     }
       }
 
 }
